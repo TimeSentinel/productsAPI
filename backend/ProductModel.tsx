@@ -1,5 +1,11 @@
 //access to Postgres - development only!
 // install dotenv to store values in a .env file and include that file in .gitignore
+// required queries:
+//      1. List products
+//      2. Retrieve options for 1 product (options, items, types)
+//      3. Edit options (options, items, types)
+//      4. Edit products (Add, Edit, Delete)
+
 
 const Pool = require("pg").Pool;
 const pool = new Pool({

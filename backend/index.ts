@@ -1,8 +1,13 @@
-const express = require('express')
+// required queries:
+//      1. List products
+//      2. Retrieve options for 1 product (options, items, types)
+//      3. Edit options (options, items, types)
+//      4. Edit products (Add, Edit, Del
+
+import express from "express";
 const app = express()
 const port = 3001
-
-const product_model = require('./productModel')
+import product_model from './ProductModel'
 
 app.use(express.json())
 app.use(function (req, res, next) {
