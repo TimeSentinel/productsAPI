@@ -6,6 +6,24 @@
 //      3. Edit options (options, items, types)
 //      4. Edit products (Add, Edit, Delete)
 
+/* todo: Queries;
+list products w types?
+list options for specific product
+list types for specific product
+add product
+ -- add options for product
+ -- add types for product
+delete product (mark as deleted)
+update product ID
+add/remove options for product ID
+add/remove types for product ID
+delete option id (and remove from products)
+delete type id (and remove from products)
+add category
+del category (if not used, remove relqated subcategories)
+edit category id
+add/delete/edit subcategory id
+ */
 
 const Pool = require("pg").Pool;
 
@@ -18,14 +36,23 @@ const pool = new Pool({
 });
 
 const querySelect = { //TODO: need to finish queries with db access
-    productsList: "SELECT * FROM Products WHERE deleted=False",
-    productsAdd: "INSERT INTO Products (things go here) VALUES ($1, $2) RETURNING *",
-    productsDelete: "UPDATE Products SET name = $1, email = $2 WHERE id = $3 RETURNING *",
-    productsUpdate: "UPDATE Products SET name = $1, email = $2 WHERE id = $3 RETURNING *",
-    optionsGet: "SELECT * FROM Options WHERE product_id = $1",
-    optionsAdd: "INSERT INTO Options VALUES ($1, $2) RETURNING * ",
+    productsList: "SELECT * FROM products.list WHERE productDeleted='n'",
+    productsAdd: "INSERT INTO products.list " +
+        "(productID, productName, productShort, productDesc, productPrice, productImage, productCategory, " +
+        "productSubCategory, productDeleted, productDateAdded) " +
+        "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'n', $9) RETURNING *",
+    productsDelete: "UPDATE products.list SET productDeleted = 'y' WHERE productID = $1 RETURNING *",
+    productsUpdate: "UPDATE products.list SET " +
+        "productName = $2, productShort = $3, productDesc = $4, productPrice = $5, productImage = $6," +
+        " productCategory = $7, productSubCategory = $8 WHERE productID = $1 RETURNING *",
+    optionsGet: "SELECT * FROM products.options WHERE fkProduct = $1",
+    optionsAdd: "INSERT INTO products.options (keyID, fkProduct) VALUES ($1, $2) RETURNING * ",
     optionsUpdate: "UPDATE Options Set stuff to be equal WHERE id = $2 RETURNING *",
-    optionsDelete: "DELETE FROM Options WHERE id = $1"
+    optionsDelete: "DELETE FROM Options WHERE id = $1",
+    typesGet: "SELECT * FROM products.types WHERE fkProduct = $1",
+    typesAdd: "INSERT INTO types VALUES ($1, $2) RETURNING * ",
+    typesUpdate: "UPDATE types Set stuff to be equal WHERE id = $2 RETURNING *",
+    typesDelete: "DELETE FROM types WHERE id = $1"
 }
 
 const sendQuery = async (query,body) => {
