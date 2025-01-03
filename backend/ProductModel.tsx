@@ -10,7 +10,7 @@
 ----------------------------------------------------------------------
 todo: Queries;
 LISTS
-productsList: list products w types IN ONE FIELD (ARRAY?)?
+productsList: list products w types IN ONE(ARRAY?) FIELD ?
 productOptions: list options for specific productID
 productTypes: list types for specific productID
 optionTypes: list option types from optID
