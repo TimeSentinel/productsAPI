@@ -104,7 +104,7 @@ const querySelect = {
     }
 }
 
-const sendQuery = async (query, body) => {
+const mongoose = async (query, body) => {
     try {
         return await new Promise(function (resolve, reject) {
             pool.query(query, (error, results) => {
@@ -126,7 +126,7 @@ const sendQuery = async (query, body) => {
 
 
 //get all Products our database
-const getProducts = async () => {
+const listQuery = async () => {
     try {
         return await new Promise(function (resolve, reject) {
             // #################################### PRODUCTS QUERY ####################################
@@ -148,7 +148,7 @@ const getProducts = async () => {
 };
 
 //create a new Product record in the databsse
-const createProduct = (body) => {
+const addQuery = (body) => {
     return new Promise(function (resolve, reject) {
         const {name, email} = body;
         // #################################### INSERT QUERY ####################################
@@ -172,7 +172,7 @@ const createProduct = (body) => {
 };
 
 //delete an Option
-const deleteOption = (id) => {
+const deleteQuery = (id) => {
     return new Promise(function (resolve, reject) {
         // #################################### DELETE QUERY ####################################
         pool.query(
@@ -189,7 +189,7 @@ const deleteOption = (id) => {
 };
 
 //update a Product record
-const updateProduct = (id, body) => {
+const updateQuery = (id, body) => {
     return new Promise(function (resolve, reject) {
         const {name, email} = body;
         // #################################### UPDATE QUERY ####################################
@@ -210,32 +210,8 @@ const updateProduct = (id, body) => {
     });
 };
 module.exports = {
-    productsList,
-    productOptions,
-    productTypes,
-    productAdd,
-    productDelete,
-    productUpdate,
-    productOptionAdd,
-    productOptionRemove,
-    productTypeAdd,
-    productTypeRemove,
-    optionAdd,
-    optionUpdate,
-    optionDelete,
-    optionTypes,
-    optionDefaults,
-    optionItems,
-    addOptionItem,
-    deleteOptionItem,
-    optionsGet,
-    typeAdd,
-    typeUpdate,
-    typeDelete,
-    categoryAdd,
-    categoryDelete,
-    categoryUpdate,
-    subcatAdd,
-    subcatUpdate,
-    subcatDelete
+    addQuery,     // (productAdd,productOptionAdd,productTypeAdd,optionAdd,addOptionItem,typeAdd,categoryAdd,subcatAdd)
+    listQuery,    // (productsList,productOptions,productTypes,optionTypes,optionDefaults,optionItems)
+    updateQuery,  // (productUpdate,optionUpdate,typeUpdate,categoryUpdate,subcatUpdate)
+    deleteQuery   // (productDelete,productOptionRemove,productTypeRemove,optionDelete,deleteOptionItem,typeDelete,categoryDelete,subcatDelete)
 };
