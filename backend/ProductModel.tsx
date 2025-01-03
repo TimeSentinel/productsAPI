@@ -23,6 +23,9 @@ add category
 del category (if not used, remove relqated subcategories)
 edit category id
 add/delete/edit subcategory id
+
+todo: add password hash
+todo: add uuid generator
  */
 
 const Pool = require("pg").Pool;
