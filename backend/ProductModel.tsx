@@ -7,7 +7,7 @@
 //      4. Edit products (Add, Edit, Delete)
 
 /* todo: Queries;
-list products w types?
+list products w types IN ONE FIELD (ARRAY?)?
 list options for specific product
 list types for specific product
 add product
