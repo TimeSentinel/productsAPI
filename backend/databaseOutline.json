@@ -1,0 +1,65 @@
+{
+  "products": {
+    "list": {
+      "productID": "UUID",
+      "productName": "varchar(255)",
+      "productShort": "varchar(255)",
+      "productDesc": "varchar",
+      "productPrice": "numeric(5,2)",
+      "productImage": "varchar(255)",
+      "productCategory": "UUID",
+      "productSubcategory": "UUID",
+      "productDeleted": "char(1)",
+      "productDateAdded": "date"
+    },
+    "categories_defs": {
+      "catID": "UUID",
+      "catName": "varchar(255)",
+      "catDesc": "varchar(255)",
+      "catAvail": "varchar(255)"
+    },
+    "categories_subcats": {
+      "subcatID": "UUID",
+      "subcatName": "varchar(255)",
+      "fkCatID": "UUID"
+    },
+    "keywords": {
+      "keyID": "UUID",
+      "fkProduct": "UUID"
+    },
+    "keywords_defs": {
+      "keyID": "UUID",
+      "keyName": "varchar(255)",
+      "keyDesc": "varchar(255)",
+      "keyTypeID": "int"
+    },
+    "keywords_types": {
+      "keyTypeID": "int",
+      "keyTypeName": "varchar(15)"
+    },
+    "options": {
+      "optid": "varchar(255)",
+      "fkProduct": "UUID"
+    },
+    "options_defs": {
+      "optValue": "varchar(255)",
+      "optType": "int",
+      "optDesc": "varchar(255)"
+    },
+    "options_types": {
+      "optTypesID": "int",
+      "optTypeValue": "varchar(16)"
+    },
+    "options_items": {
+      "optItemName": "varchar(255)",
+      "optItemDefault": "int",
+      "optCost": "numeric(5,2)",
+      "fkValue": "varchar(255)"
+    },
+    "options_defaults": {
+      "optDefaultsID": "int",
+      "defaultValue": "varchar(16)"
+    }
+  }
+}
+

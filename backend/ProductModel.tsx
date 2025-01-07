@@ -10,9 +10,30 @@
 ----------------------------------------------------------------------
 todo: Queries;
 LISTS
-productsList: list products w types IN ONE(ARRAY?) FIELD ?
+productsList:
+  X  SELECT productID, productName, productShort, productDesc, productPrice, productImage FROM products.list WHERE productDeleted = 'n'
+  X  SELECT catName FROM categories_defs WHERE productCategory = catID
+  X  SELECT subcatName FROM categories_subcats WHERE productSubCategory = subcatID
+ NO --> STUFF(
+        (
+            SELECT ',' + keywords_types.keyTypeName + ':' + keywords_defs.keyName AS [text()]
+            FROM products.keywords_defs
+            LEFT JOIN products.keywords_types ON keywords_defs.keyTypeID = keywords_types.keyTypeID
+            WHERE keywords_defs.keyID = keywords.keyID
+            ORDER BY keywords_defs.keyName
+            FOR XML PATH (''), TYPE
+        ).value('text()[1]','nvarchar(max'), 1, 1, '')
+
+
+QUERY: SELECT list.productID, list.productName, list.productShort, list.productDesc, list.productPrice, list.productImage,
+        categories_defs.catName, categories_subcats.subcatName FROM products.list
+        LEFT JOIN products.categories_defs ON list.productCategory = categories_defs.catID
+        LEFT JOIN products.categories_subcats ON list.productSubCategory = categories_subcats.subcatID
+        WHERE productDeleted = 'n'
+
+
 productOptions: list options for specific productID
-productTypes: list types for specific productID
+productKeywords: list keywords for specific productID
 optionTypes: list option types from optID
 optionItems: list option items from optID
 optionDefaults: list option defaults from optID
