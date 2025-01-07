@@ -14,15 +14,7 @@ productsList:
   X  SELECT productID, productName, productShort, productDesc, productPrice, productImage FROM products.list WHERE productDeleted = 'n'
   X  SELECT catName FROM categories_defs WHERE productCategory = catID
   X  SELECT subcatName FROM categories_subcats WHERE productSubCategory = subcatID
- NO --> STUFF(
-        (
-            SELECT ',' + keywords_types.keyTypeName + ':' + keywords_defs.keyName AS [text()]
-            FROM products.keywords_defs
-            LEFT JOIN products.keywords_types ON keywords_defs.keyTypeID = keywords_types.keyTypeID
-            WHERE keywords_defs.keyID = keywords.keyID
-            ORDER BY keywords_defs.keyName
-            FOR XML PATH (''), TYPE
-        ).value('text()[1]','nvarchar(max'), 1, 1, '')
+  SELECT keywords and add them as CSV fields???
 
 
 QUERY: SELECT list.productID, list.productName, list.productShort, list.productDesc, list.productPrice, list.productImage,
@@ -31,6 +23,24 @@ QUERY: SELECT list.productID, list.productName, list.productShort, list.productD
         LEFT JOIN products.categories_subcats ON list.productSubCategory = categories_subcats.subcatID
         WHERE productDeleted = 'n'
 
+
+        SELECT STRING_AGG(keywords_types.keyTypeName + ':' + keywords_defs.keyName, ',') AS tastes
+            FROM products.keywords_defs
+            LEFT JOIN products.keywords_types ON keywords_defs.keyTypeID = keywords_types.keyTypeID
+            WHERE keywords_defs.keyID = keywords.keyID AND keywords_defs.keyID=1
+            ORDER BY keywords_defs.keyName
+
+        SELECT STRING_AGG(keywords_types.keyTypeName + ':' + keywords_defs.keyName, ',') AS cultures
+            FROM products.keywords_defs
+            LEFT JOIN products.keywords_types ON keywords_defs.keyTypeID = keywords_types.keyTypeID
+            WHERE keywords_defs.keyID = keywords.keyID AND keywords_defs.keyID=2
+            ORDER BY keywords_defs.keyName
+
+        SELECT STRING_AGG(keywords_types.keyTypeName + ':' + keywords_defs.keyName, ',') AS diet
+            FROM products.keywords_defs
+            LEFT JOIN products.keywords_types ON keywords_defs.keyTypeID = keywords_types.keyTypeID
+            WHERE keywords_defs.keyID = keywords.keyID AND keywords_defs.keyID=3
+            ORDER BY keywords_defs.keyName
 
 productOptions: list options for specific productID
 productKeywords: list keywords for specific productID
@@ -41,23 +51,23 @@ optionDefaults: list option defaults from optID
 ADDS
 productAdd: add product
 productOptionAdd: add options for product ID
-productTypeAdd: add types for product ID
+productKeywordAdd: add keywords for product ID
 optionAdd: create new optID
 addOptionItem: add option item from optID
-typeAdd: create new typeID
+keywordAdd: create new typeID
 categoryAdd: add category
 subcatAdd:
 
 UPDATES
 productUpdate: update product ID
 optionUpdate: edit optID
-typeUpdate: update new typeID
+keywordUpdate: update new typeID
 categoryUpdate: edit category id
 subcatUpdate:
 
 DELETES
 productDelete: delete product (mark as deleted)
-productTypeRemove: remove types for product ID
+productKeywordRemove: remove types for product ID
 productOptionRemove: remove options for product ID
 optionDelete: delete optID (and remove from products)
 deleteOptionItem: remove option item from optID
