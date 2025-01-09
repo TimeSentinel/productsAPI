@@ -10,6 +10,8 @@
   "license": "ISC",
   "description": "API to access Postgresql db.",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "crypto": "^1.0.1",
     "express": "^4.21.2",
     "pg": "^8.13.1"
   },

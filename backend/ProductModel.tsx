@@ -24,6 +24,36 @@ const pool = new Pool({
     port: 5432,
 });
 
+const generateUUID = () => {
+    const crypto = require("crypto");
+    return crypto.randomUUID();
+}
+
+const hashPassword = (password: string) => {
+    const bcrypt = require("bcrypt");
+    const saltRounds = 10;
+    bcrypt.genSalt(saltRounds, (err, salt) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        // Salt generation successful, proceed to hash the password
+    });
+    const userPassword = 'user_password'; // Replace with the actual password
+    bcrypt.hash(userPassword, salt, (err, hash) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        // Hashing successful, 'hash' contains the hashed password
+        return hash;
+    });
+}
+
+
+// bcrypt.hash = bcrypt.hashSync;
+// bcrypt.compare()
+
 //TODO: need to finish queries with db access
 const querySelect = {
     select: {
