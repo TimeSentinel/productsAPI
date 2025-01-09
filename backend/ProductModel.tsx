@@ -8,74 +8,7 @@
 
 /*
 ----------------------------------------------------------------------
-todo: Queries;
-LISTS
-productsList:
-  X  SELECT productID, productName, productShort, productDesc, productPrice, productImage FROM products.list WHERE productDeleted = 'n'
-  X  SELECT catName FROM categories_defs WHERE productCategory = catID
-  X  SELECT subcatName FROM categories_subcats WHERE productSubCategory = subcatID
-  SELECT keywords and add them as CSV fields???
 
-
-QUERY: SELECT list.productID, list.productName, list.productShort, list.productDesc, list.productPrice, list.productImage,
-        categories_defs.catName, categories_subcats.subcatName FROM products.list
-        LEFT JOIN products.categories_defs ON list.productCategory = categories_defs.catID
-        LEFT JOIN products.categories_subcats ON list.productSubCategory = categories_subcats.subcatID
-        WHERE productDeleted = 'n'
-
-
-        SELECT STRING_AGG(keywords_types.keyTypeName + ':' + keywords_defs.keyName, ',') AS tastes
-            FROM products.keywords_defs
-            LEFT JOIN products.keywords_types ON keywords_defs.keyTypeID = keywords_types.keyTypeID
-            WHERE keywords_defs.keyID = keywords.keyID AND keywords_defs.keyID=1
-            ORDER BY keywords_defs.keyName
-
-        SELECT STRING_AGG(keywords_types.keyTypeName + ':' + keywords_defs.keyName, ',') AS cultures
-            FROM products.keywords_defs
-            LEFT JOIN products.keywords_types ON keywords_defs.keyTypeID = keywords_types.keyTypeID
-            WHERE keywords_defs.keyID = keywords.keyID AND keywords_defs.keyID=2
-            ORDER BY keywords_defs.keyName
-
-        SELECT STRING_AGG(keywords_types.keyTypeName + ':' + keywords_defs.keyName, ',') AS diet
-            FROM products.keywords_defs
-            LEFT JOIN products.keywords_types ON keywords_defs.keyTypeID = keywords_types.keyTypeID
-            WHERE keywords_defs.keyID = keywords.keyID AND keywords_defs.keyID=3
-            ORDER BY keywords_defs.keyName
-
-productOptions: list options for specific productID
-productKeywords: list keywords for specific productID
-optionTypes: list option types from optID
-optionItems: list option items from optID
-optionDefaults: list option defaults from optID
-
-ADDS
-productAdd: add product
-productOptionAdd: add options for product ID
-productKeywordAdd: add keywords for product ID
-optionAdd: create new optID
-addOptionItem: add option item from optID
-keywordAdd: create new typeID
-categoryAdd: add category
-subcatAdd:
-
-UPDATES
-productUpdate: update product ID
-optionUpdate: edit optID
-keywordUpdate: update new typeID
-categoryUpdate: edit category id
-subcatUpdate:
-
-DELETES
-productDelete: delete product (mark as deleted)
-productKeywordRemove: remove types for product ID
-productOptionRemove: remove options for product ID
-optionDelete: delete optID (and remove from products)
-deleteOptionItem: remove option item from optID
-typeDelete: delete typeID (and remove from products)
-categoryDelete: del category (if not used, remove relqated subcategories)
-subcatDelete: delete subcategory id
-
-----------------------------------------------------------------------
 todo: add password hash
 todo: add uuid generator
 todo: dotenv environment variables
@@ -93,52 +26,70 @@ const pool = new Pool({
 
 //TODO: need to finish queries with db access
 const querySelect = {
-    list: {
-        productsList: "SELECT * FROM products.list WHERE productDeleted='n'",
-        productOptions: "SELECT * FROM products.options WHERE fkProduct = $1",
-        productTypes: "SELECT * FROM products.types WHERE fkProduct = $1",
-        optionTypes: "",
-        optionDefaults: "",
-        optionItems: ""
+    select: {
+        listProducts: "SELECT list.productID, list.productName, list.productShort, list.productDesc, list.productPrice," +
+            "list.productImage, categories_defs.catName, categories_subcats.subcatName FROM products.list" +
+            "LEFT JOIN products.categories_defs ON list.productCategory = categories_defs.catID" +
+            "LEFT JOIN products.categories_subcats ON list.productSubCategory = categories_subcats.subcatID" +
+            "WHERE productDeleted = 'n'",
+        listCategories: "SELECT * FROM products.categoriesDefs",
+        listSubcategories: "SELECT * FROM products.categoriesSubcats",
+        listKeywords: "SELECT * FROM products.keywordsDefs",
+        listProductOptions: "SELECT * FROM products.options",
+        listOptionsDefs: "SELECT * FROM products.optionsDefs",
+        listOptionsTypes: "SELECT * FROM products.optionsTypes",
+        listOptionsItems: "SELECT * FROM products.optionsItems"
     },
-    add: {
-        productAdd: "INSERT INTO products.list " +
-            "(productID, productName, productShort, productDesc, productPrice, productImage, productCategory, " +
-            "productSubCategory, productDeleted, productDateAdded) " +
-            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'n', $9) RETURNING *",
-        productOptionAdd: "",
-        productTypeAdd: "",
-        optionAdd: "",
-        addOptionItem: "",
-        typeAdd: "INSERT INTO types VALUES ($1, $2) RETURNING * ",
-        categoryAdd: "",
-        subcatAdd: ""
+    insert: {
+        addProduct : "INSERT INTO products.list" +
+            "(productID, productName, productShort, productDesc, productPrice, productImage)" +
+            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'n', now())",
+        addKeyword : "INSERT INTO products.keywordsDefs" +
+            "(keyID, keyName, keyDesc, keyTypeID)" +
+            "VALUES ($1, $2, $3, $4)"
     },
     update: {
-        productUpdate: "UPDATE products.list SET " +
-            "productName = $2, productShort = $3, productDesc = $4, productPrice = $5, productImage = $6," +
-            " productCategory = $7, productSubCategory = $8 WHERE productID = $1 RETURNING *",
-        optionUpdate: "",
-        typeUpdate: "UPDATE types Set stuff to be equal WHERE id = $2 RETURNING *",
-        categoryUpdate: "",
-        subcatUpdate: ""
+        editProduct : "UPDATE products.list" +
+            "SET productName = $2, productShort = $3, productDesc = $4, productPrice = $5, productImage = $6," +
+            "productCategory = $7, productSubcat = $8, productTags = $8" +
+            "WHERE UUID = $1",
+        editSubcategory : "UPDATE products.categoriesSubcats" +
+            "SET subCatName = $2" +
+            "WHERE subCatID = $1",
+        editCategory : "UPDATE products.categoriesDefs" +
+            "SET catName = $2, catDesc = $3, catAvail = $4" +
+            "WHERE UUID = $1",
+        editOptionTypes : "UPDATE products.optionTypes" +
+            "SET optTypesID = $2, optTypeValue = $3" +
+            "WHERE optTypesID = $1",
+        editOptionItems : "UPDATE products.optionsItems" +
+            "SET optItemName = $2, optItemDefault = $3, optCost = $4" +
+            "WHERE fkValue = $1",
+        editOptionDefs : "UPDATE products.optionsDefs" +
+            "SET optValue = $2, optType = $3, optDesc = $4" +
+            "WHERE fkValue = $1"
     },
     delete: {
-        productDelete: "UPDATE products.list SET productDeleted = 'y' WHERE productID = $1 RETURNING *",
-        productOptionRemove: "",
-        productTypeRemove: "",
-        optionDelete: "",
-        deleteOptionItem: "",
-        typeDelete: "DELETE FROM types WHERE id = $1",
-        categoryDelete: "",
-        subcatDelete: ""
+        removeProduct : "UPDATE products.list" +
+            "SET productDeleted='y'" +
+            "WHERE UUID = $1",
+        removeCategory : "DELETE FROM products.categoriesDefs" +
+            "WHERE catID = $1",
+        removeSubCategory : "DELETE FROM products.categoriesSubcats" +
+            "WHERE subcatID = $1",
+        deleteKeyword : "DELETE FROM products.keywordsDefs" +
+            "WHERE keyID = $1",
+        deleteOptionsDefs : "DELETE FROM products.optionsDefs" +
+            "WHERE optValue = $1",
+        deleteOptionItems : "DELETE products.optionItems" +
+            "WHERE optItemName = $1"
     }
 }
 
 const mongoose = async (query, body) => {
     try {
         return await new Promise(function (resolve, reject) {
-            pool.query(query, (error, results) => {
+            pool.query(queryString + "$1" + "$2", (error, results) => {
                 if (error) {
                     reject(error);
                 }
