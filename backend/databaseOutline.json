@@ -12,13 +12,13 @@
       "productDeleted": "char(1)",
       "productDateAdded": "date"
     },
-    "categories_defs": {
+    "categoriesDefs": {
       "catID": "UUID",
       "catName": "varchar(255)",
       "catDesc": "varchar(255)",
       "catAvail": "varchar(255)"
     },
-    "categories_subcats": {
+    "categoriesSubcats": {
       "subcatID": "UUID",
       "subcatName": "varchar(255)",
       "fkCatID": "UUID"
@@ -27,38 +27,29 @@
       "keyID": "UUID",
       "fkProduct": "UUID"
     },
-    "keywords_defs": {
+    "keywordsDefs": {
       "keyID": "UUID",
       "keyName": "varchar(255)",
       "keyDesc": "varchar(255)",
       "keyTypeID": "int"
     },
-    "keywords_types": {
+    "keywordsTypes": {
       "keyTypeID": "int",
       "keyTypeName": "varchar(15)"
     },
-    "options": {
-      "optid": "varchar(255)",
-      "fkProduct": "UUID"
+    "optionDefs": {
+      "optID": "UUID",
+      "prodID": "UUID",
+      "optName": "varchar(255)",
+      "optDesc": "varchar(255)",
+      "optType": "varchar(16)"
     },
-    "options_defs": {
+    "optionsItems": {
+      "itemID" : "UUID",
+      "optID" : "UUID",
+      "itemName": "varchar(255)",
       "optValue": "varchar(255)",
-      "optType": "int",
-      "optDesc": "varchar(255)"
-    },
-    "options_types": {
-      "optTypesID": "int",
-      "optTypeValue": "varchar(16)"
-    },
-    "options_items": {
-      "optItemName": "varchar(255)",
-      "optItemDefault": "int",
-      "optCost": "numeric(5,2)",
-      "fkValue": "varchar(255)"
-    },
-    "options_defaults": {
-      "optDefaultsID": "int",
-      "defaultValue": "varchar(16)"
+      "optCost": "numeric(5,2)"
     }
   }
 }

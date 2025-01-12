@@ -5,7 +5,7 @@
 CREATE SCHEMA products;
 
 -- Categories ------------------------++++++++++++++++
-CREATE TABLE IF NOT EXISTS products.categoriesDefs (
+CREATE TABLE IF NOT EXISTS products.categories (
     catID UUID NOT NULL,
     catName varchar(255) NOT NULL,
     catDesc varchar(255),
@@ -14,47 +14,34 @@ CREATE TABLE IF NOT EXISTS products.categoriesDefs (
     UNIQUE(catID)
 );
 
-CREATE TABLE IF NOT EXISTS products.categoriesSubcats (
+CREATE TABLE IF NOT EXISTS products.subcats (
     subcatID UUID NOT NULL UNIQUE,
     subcatName varchar(255) NOT NULL
 );
 
 -- KEYWORDS ------------------------++++++++++++++++
-CREATE TABLE IF NOT EXISTS products.keywordsTypes (
-    keyTypeID int PRIMARY KEY,
-    keyTypeName varchar(16) NOT NULL UNIQUE
-);
-
-CREATE TABLE IF NOT EXISTS products.keywordsDefs (
+CREATE TABLE IF NOT EXISTS products.keywords (
     keyID uuid unique,
     keyName varchar(255) NOT NULL,
     keyDesc varchar(255),
-    keyTypeID int REFERENCES products.keywordsTypes(keyTypeID)
+    keyType varchar(16)
 );
 
 -- OPTIONS ------------------------++++++++++++++++
-CREATE TABLE IF NOT EXISTS products.optionsDefaults (
-    optDefaultsID int primary key,
-    defaultValue varchar(16)
-);
-
-CREATE TABLE IF NOT EXISTS products.optionsTypes (
-    optTypesID int primary key,
-    optTypeValue varchar(16)
-);
-
-CREATE TABLE IF NOT EXISTS products.optionsDefs (
-    optValue varchar(255) NOT NULL,
-    optType int REFERENCES products.optionsTypes (optTypesID),
+CREATE TABLE IF NOT EXISTS products.options (
+    optID UUID NOT NULL UNIQUE,
+    prodID UUID,
+    optName varchar(255) NOT NULL,
     optDesc varchar(255),
-    UNIQUE(optValue)
+    optType varchar(16)
 );
 
-CREATE TABLE IF NOT EXISTS products.optionsItems (
-    optItemName varchar(255) NOT NULL,
-    optItemDefault int REFERENCES products.optionsDefaults(optDefaultsID),
-    optCost numeric(5, 2),
-    fkValue varchar(255) REFERENCES products.optionsDefs(optValue) ON DELETE CASCADE
+CREATE TABLE IF NOT EXISTS products.optItems (
+    itemID UUID NOT NULL UNIQUE,
+    optID UUID,
+    itemName varchar(255) NOT NULL,
+    itemValue varchar(255),
+    itemCost numeric(5, 2)
 );
 
 -- PRODUCT LIST/CATALOG ------------------++++++++++++++++
@@ -65,8 +52,8 @@ CREATE TABLE IF NOT EXISTS products.list (
     productDesc varchar,
     productPrice numeric(5,2),
     productImage varchar(255),
-    productCategory UUID REFERENCES products.categoriesDefs(catID),
-    productSubCategory UUID REFERENCES products.categoriesSubcats(subcatID),
+    productCategory UUID REFERENCES products.categories(catID),
+    productSubCategory UUID REFERENCES products.subcats(subcatID),
     productTags varchar,
     productDeleted char(1),
     productDateAdded date,
@@ -74,13 +61,4 @@ CREATE TABLE IF NOT EXISTS products.list (
     UNIQUE(productID)
 );
 
--- CREATE TABLE IF NOT EXISTS products.keywords (
---     keyID UUID REFERENCES products.keywords_defs(keyID),
---     fkProduct UUID REFERENCES products.list(productID) ON DELETE CASCADE
--- );
-
-CREATE TABLE IF NOT EXISTS products.options (
-    optID varchar(255) REFERENCES products.optionsDefs(optValue),
-    fkProduct UUID REFERENCES products.list(productID) ON DELETE CASCADE
-);
 

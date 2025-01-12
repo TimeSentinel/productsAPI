@@ -1,9 +1,11 @@
+//todo: passport.js / login credentials?
+//todo: UUID generations
 
-
-import express from "express";
+const express = require("express");
+const bodyParser = require("body-parser");
 const app = express()
 const port = 3001
-import product_model from './ProductModel'
+const productModule = require("./ProductModule")
 
 app.use(express.json())
 app.use(function (req, res, next) {
@@ -14,7 +16,7 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', (req, res) => {
-    product_model.getProducts()
+    productModule.getProducts()
         .then(response => {
             res.status(200).send(response);
         })
@@ -24,7 +26,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/products', (req, res) => {
-    product_model.createProduct(req.body)
+    productModule.createProduct(req.body)
         .then(response => {
             res.status(200).send(response);
         })
@@ -34,7 +36,7 @@ app.post('/products', (req, res) => {
 })
 
 app.delete('/products/:id', (req, res) => {
-    product_model.deleteProduct(req.params.id)
+    productModule.deleteProduct(req.params.id)
         .then(response => {
             res.status(200).send(response);
         })
@@ -45,7 +47,7 @@ app.delete('/products/:id', (req, res) => {
 app.put("/products/:id", (req, res) => {
     const id = req.params.id;
     const body = req.body;
-    product_model
+    productModule.deleteQuery
         .updateProduct(id, body)
         .then((response) => {
             res.status(200).send(response);
