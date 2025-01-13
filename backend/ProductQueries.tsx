@@ -5,7 +5,6 @@ PROJECT: productsAPI;
 (c) 2025 Lance Stubblefield
 --------------------------------------- */
 
-
 const Pool = require("pg").Pool;
 
 const pool = new Pool({
@@ -16,44 +15,58 @@ const pool = new Pool({
     port: 5432,
 });
 
+function generateUUID() {
+    const crypto = require("crypto");
+    return crypto.randomUUID();
+}
+
 const querySelect = {
     select: {
-        listProducts: "SELECT list.productID, list.productName, list.productShort, list.productDesc, list.productPrice, list.productImage, list.productTags, categoriesDefs.catName, categoriesSubcats.subcatName FROM products.list LEFT JOIN products.categoriesDefs ON list.productCategory = categoriesDefs.catID LEFT JOIN products.categoriesSubcats ON list.productSubCategory = categoriesSubcats.subcatID WHERE productDeleted = 'n'",
-        listCategories: "SELECT * FROM products.categoriesDefs",
-        listSubcategories: "SELECT * FROM products.categoriesSubcats",
-        listKeywords: "SELECT * FROM products.keywordsDefs",
-        listProductOptions: "SELECT options.value FROM products.options WHERE prodID = $1",
-        listOptItems: "SELECT * FROM products.optItems WHERE optId = $1",
+        listProducts: "SELECT list.productID, list.productName, list.productShort, list.productDesc, list.productPrice," +
+            " list.productImage, list.productTags, categories.catName, subcats.subcatName FROM products.list " +
+            "LEFT JOIN products.categories ON list.productCategory = categories.catID " +
+            "LEFT JOIN products.subcats ON list.productSubCategory = subcats.subcatID WHERE productDeleted = 'n'",
+        showProduct: "SELECT list.productName, list.productShort, list.productDesc, list.productPrice," +
+            " list.productImage, list.productTags, categories.catName, subcats.subcatName FROM products.list " +
+            "LEFT JOIN products.categories ON list.productCategory = categories.catID " +
+            "LEFT JOIN products.subcats ON list.productSubCategory = ubcats.subcatID WHERE productID  = $1",
+        showProductOptions: "SELECT options.value FROM products.options WHERE prodID = $1",
+        showOptItems: "SELECT * FROM products.optItems WHERE optId = $1",
+        listCategories: "SELECT * FROM products.categories ORDER BY catrank",
+        listSubcats: "SELECT * FROM products.subcats",
+        listKeywords: "SELECT * FROM products.keywords",
     },
     insert: {
-        addProduct: "INSERT INTO products.list (productID, productName, productShort, productDesc, productPrice, productImage) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'n', now())",
-        addKeyword: "INSERT INTO products.keywordsDefs (keyID, keyName, keyDesc, keyTypeID) VALUES ($1, $2, $3, $4)",
-        addCategory: "INSERT INTO products.categoriesDefs (catID, catName, catDesc) VALUES ($1, $2, $3)",
-        addSubcat: "INSERT INTO products.categoriesSubcats (subCatID, subCatName) VALUES ($1, $2)",
+        addProduct: "INSERT INTO products.list (productID, productName, productShort, productDesc, productPrice, productImage, " +
+            "productCategory, productSubcategory, productTags, productDeleted, productDateAdded) " +
+            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'n', now())",
+        addKeyword: "INSERT INTO products.keywords (keyID, keyName, keyDesc, keyTypeID) VALUES ($1, $2, $3, $4)",
+        addProdOpt: "INSERT INTO products.prodOpts (optID, prodID) VALUES ($1, $2)",
+        addCategory: "INSERT INTO products.categories (catID, catName, catDesc, catAvail, catRank) VALUES ($1, $2, $3, $4, $5)",
+        addSubcat: "INSERT INTO products.subcats (subCatID, subCatName) VALUES ($1, $2)",
         addOption: "INSERT INTO products.options (optID, prodID, optName, optDesc, optType) VALUES ($1, $2, $3, $4, $5)",
         addItem: "INSERT INTO products.optItems (itemID, optID, itemName, itemValue, itemCost) VALUES ($1, $2, $3, $4, $5)"
     },
     update: {
         editProduct: "UPDATE products.list SET productName = $2, productShort = $3, productDesc = $4, productPrice = $5, productImage = $6, productCategory = $7, productSubcat = $8, productTags = $8 WHERE UUID = $1",
-        editSubcategory: "UPDATE products.categoriesSubcats SET subCatName = $2 WHERE subCatID = $1",
-        editCategory: "UPDATE products.categoriesDefs SET catName = $2, catDesc = $3, catAvail = $4 WHERE UUID = $1"
+        editSubcategory: "UPDATE products.subcats SET subCatName = $2 WHERE subCatID = $1",
+        editCategory: "UPDATE products.categories SET catName = $2, catDesc = $3, catAvail = $4 WHERE UUID = $1"
     },
     delete: {
         removeProduct: "UPDATE products.list SET productDeleted='y' WHERE UUID = $1",
-        removeCategory: "DELETE FROM products.categoriesDefs WHERE catID = $1",
-        removeSubCategory: "DELETE FROM products.categoriesSubcats WHERE subcatID = $1",
-        deleteKeyword: "DELETE FROM products.keywordsDefs WHERE keyID = $1",
+        removeCategory: "DELETE FROM products.categories WHERE catID = $1",
+        removeSubCategory: "DELETE FROM products.subcats WHERE subcatID = $1",
+        deleteKeyword: "DELETE FROM products.keywords WHERE keyID = $1",
         deleteOption: "DELETE FROM products.options WHERE optID = $1",
         deleteOptItem: "DELETE FROM products.optItems WHERE itemID = $1"
     }
 }
 
-//get all Products our database
-const listQuery = async () => {
+// ---------------------------------------------------- LISTS ----------------------------------------------------
+const listStuff = async (arg) => {
     try {
         return await new Promise(function (resolve, reject) {
-            // #################################### PRODUCTS QUERY ####################################
-            pool.query(querySelect.select.listProducts, (error, results) => {
+            pool.query(arg, (error, results) => {
                 if (error) {
                     reject(error);
                 }
@@ -69,10 +82,18 @@ const listQuery = async () => {
         throw new Error("Internal server error");
     }
 };
+const listCategories = () => listStuff(querySelect.select.listCategories)
+const listProducts = () =>  listStuff(querySelect.select.listProducts)
+const listSubcats = () => listStuff(querySelect.select.listSubcats)
+
+
+
+
+
+// #############################################################################################
 
 module.exports = {
-    //addQuery,     // (productAdd,productOptionAdd,productTypeAdd,optionAdd,addOptionItem,typeAdd,categoryAdd,subcatAdd)
-    listQuery    // (productsList,productOptions,productTypes,optionTypes,optionDefaults,optionItems)
-    //updateQuery,  // (productUpdate,optionUpdate,typeUpdate,categoryUpdate,subcatUpdate)
-    //deleteQuery   // (productDelete,productOptionRemove,productTypeRemove,optionDelete,deleteOptionItem,typeDelete,categoryDelete,subcatDelete)
+    listProducts,
+    listCategories,
+    listSubcats
 };

@@ -1,55 +1,65 @@
 {
   "products": {
     "list": {
-      "productID": "UUID",
+      "productID": "UUID NOT NULL UNIQU PK",
       "productName": "varchar(255)",
       "productShort": "varchar(255)",
       "productDesc": "varchar",
       "productPrice": "numeric(5,2)",
       "productImage": "varchar(255)",
-      "productCategory": "UUID",
-      "productSubcategory": "UUID",
+      "productCategory": "UUID REFERENCES products.categories(catID)",
+      "productSubcategory": "UUID REFERENCES products.subcats(subcatID)",
+      "productTags": "varchar",
       "productDeleted": "char(1)",
       "productDateAdded": "date"
     },
-    "categoriesDefs": {
-      "catID": "UUID",
-      "catName": "varchar(255)",
+    "categories": {
+      "catID": "UUID NOT NULL UNIQUE PK",
+      "catName": "varchar(255) NOT NULL",
       "catDesc": "varchar(255)",
-      "catAvail": "varchar(255)"
+      "catAvail": "varchar(255)",
+      "catRank": "integer"
     },
-    "categoriesSubcats": {
+    "subcats": {
       "subcatID": "UUID",
       "subcatName": "varchar(255)",
-      "fkCatID": "UUID"
-    },
+      },
     "keywords": {
-      "keyID": "UUID",
-      "fkProduct": "UUID"
-    },
-    "keywordsDefs": {
-      "keyID": "UUID",
+      "keyID": "UUID UNIQUE",
       "keyName": "varchar(255)",
       "keyDesc": "varchar(255)",
-      "keyTypeID": "int"
+      "keyType": "varchar(16)"
     },
-    "keywordsTypes": {
-      "keyTypeID": "int",
-      "keyTypeName": "varchar(15)"
-    },
-    "optionDefs": {
-      "optID": "UUID",
-      "prodID": "UUID",
-      "optName": "varchar(255)",
+    "options": {
+      "optID": "UUID NOT NULL UNIQUE",
+      "optName": "varchar(255) NOT NULL",
       "optDesc": "varchar(255)",
       "optType": "varchar(16)"
     },
-    "optionsItems": {
-      "itemID" : "UUID",
+    "optItems": {
+      "itemID" : "UUID NOT NULL UNIQUE",
       "optID" : "UUID",
-      "itemName": "varchar(255)",
-      "optValue": "varchar(255)",
-      "optCost": "numeric(5,2)"
+      "itemName": "varchar(255) NOT NULL",
+      "itemValue": "varchar(255)",
+      "itemCost": "numeric(5,2)"
+    },
+    "prodOpts": {
+      "optID" : "UUID NOT NULL",
+      "prodID" : "UUID NOT NULL"
+    },
+    "optItems": {
+      "itemID" : "UUID NOT NULL UNIQUE",
+      "optID" : "UUID",
+      "itemName": "varchar(255) NOT NULL",
+      "itemValue": "varchar(255)",
+      "itemCost": "numeric(5,2)"
+    },
+    "optItems": {
+      "itemID" : "UUID NOT NULL UNIQUE",
+      "optID" : "UUID",
+      "itemName": "varchar(255) NOT NULL",
+      "itemValue": "varchar(255)",
+      "itemCost": "numeric(5,2)"
     }
   }
 }

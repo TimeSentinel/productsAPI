@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS products.categories (
     catName varchar(255) NOT NULL,
     catDesc varchar(255),
     catAvail varchar(255),
+    catRank integer,
     PRIMARY KEY(catID),
     UNIQUE(catID)
 );
@@ -30,7 +31,6 @@ CREATE TABLE IF NOT EXISTS products.keywords (
 -- OPTIONS ------------------------++++++++++++++++
 CREATE TABLE IF NOT EXISTS products.options (
     optID UUID NOT NULL UNIQUE,
-    prodID UUID,
     optName varchar(255) NOT NULL,
     optDesc varchar(255),
     optType varchar(16)
@@ -42,6 +42,11 @@ CREATE TABLE IF NOT EXISTS products.optItems (
     itemName varchar(255) NOT NULL,
     itemValue varchar(255),
     itemCost numeric(5, 2)
+);
+
+CREATE TABLE IF NOT EXISTS products.prodOpts (
+    optID UUID NOT NULL,
+    prodID UUID NOT NULL
 );
 
 -- PRODUCT LIST/CATALOG ------------------++++++++++++++++
