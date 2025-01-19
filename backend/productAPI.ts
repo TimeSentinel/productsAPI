@@ -17,7 +17,6 @@ app.use(function (req, res, next) {
     if (allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
-    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
     next();
@@ -26,41 +25,85 @@ app.use(function (req, res, next) {
 
 // -------------------------------------------- GET --------------------------------------------
 
-// --------------- PRODUCTS ---------------
-app.get('/products', (req, res) => {
-    productQueries.listProducts()
-        .then(response => {
-            res.status(200).send(response);
-        })
-        .catch(error => {
-            res.status(500).send(error);
-        })
-})
-// --------------- CATEGORIES ---------------
-app.get('/categories', (req, res) => {
-    productQueries.listCategories()
-        .then(response => {
-            res.status(200).send(response);
-        })
-        .catch(error => {
-            res.status(500).send(error);
-        })
+app.get('/', (req, res) => {
+    switch (req.query.query) {
+        case 'products':
+            productQueries.listProducts()
+                .then(response => {
+                    res.status(200).send(response);
+                })
+                .catch(error => {
+                    res.status(500).send(error);
+                })
+            break;
+        case 'categories':
+            productQueries.listCategories()
+                .then(response => {
+                    res.status(200).send(response);
+                })
+                .catch(error => {
+                    res.status(500).send(error);
+                })
+            break;
+        case 'subcats':
+            productQueries.listSubcats()
+                .then(response => {
+                    res.status(200).send(response);
+                })
+                .catch(error => {
+                    res.status(500).send(error);
+                })
+            break;
+        case 'card':
+            productQueries.getDetails(req.query.id)
+                .then(response => {
+                    res.status(200).send(response);
+                })
+                .catch(error => {
+                    res.status(500).send(error);
+                })
+            break;
+        default:
+            res.sendStatus(404);
+            break;
+    }
+
 })
 
-// --------------- SUBCATEGORIES ---------------
-app.get('/subcats', (req, res) => {
-    productQueries.listSubcats()
-        .then(response => {
-            res.status(200).send(response);
-        })
-        .catch(error => {
-            res.status(500).send(error);
-        })
-})
+// // --------------- PRODUCTS ---------------
+// app.get('/products', (req, res) => {
+//     productQueries.listProducts()
+//         .then(response => {
+//             res.status(200).send(response);
+//         })
+//         .catch(error => {
+//             res.status(500).send(error);
+//         })
+// })
+// // --------------- CATEGORIES ---------------
+// app.get('/categories', (req, res) => {
+//     productQueries.listCategories()
+//         .then(response => {
+//             res.status(200).send(response);
+//         })
+//         .catch(error => {
+//             res.status(500).send(error);
+//         })
+// })
+//
+// // --------------- SUBCATEGORIES ---------------
+// app.get('/subcats', (req, res) => {
+//     productQueries.listSubcats()
+//         .then(response => {
+//             res.status(200).send(response);
+//         })
+//         .catch(error => {
+//             res.status(500).send(error);
+//         })
+// })
 
 
 // #############################################################################################
-
 
 
 app.listen(port, () => {

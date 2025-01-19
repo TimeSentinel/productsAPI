@@ -29,8 +29,12 @@ const querySelect = {
         showProduct: "SELECT list.productName, list.productShort, list.productDesc, list.productPrice," +
             " list.productImage, list.productTags, categories.catName, subcats.subcatName FROM products.list " +
             "LEFT JOIN products.categories ON list.productCategory = categories.catID " +
-            "LEFT JOIN products.subcats ON list.productSubCategory = ubcats.subcatID WHERE productID  = $1",
-        showProductOptions: "SELECT options.value FROM products.options WHERE prodID = $1",
+            "LEFT JOIN products.subcats ON list.productSubCategory = subcats.subcatID WHERE productID  = $1",
+        showProductOptions: "SELECT * FROM products.options " +
+            "LEFT JOIN products.prodopts ON prodopts.optid = options.optid" +
+            " WHERE prodopts.prodID = $1",
+
+
         showOptItems: "SELECT * FROM products.optItems WHERE optId = $1",
         listCategories: "SELECT * FROM products.categories ORDER BY catrank",
         listSubcats: "SELECT * FROM products.subcats",
@@ -44,7 +48,7 @@ const querySelect = {
         addProdOpt: "INSERT INTO products.prodOpts (optID, prodID) VALUES ($1, $2)",
         addCategory: "INSERT INTO products.categories (catID, catName, catDesc, catAvail, catRank) VALUES ($1, $2, $3, $4, $5)",
         addSubcat: "INSERT INTO products.subcats (subCatID, subCatName) VALUES ($1, $2)",
-        addOption: "INSERT INTO products.options (optID, prodID, optName, optDesc, optType) VALUES ($1, $2, $3, $4, $5)",
+        addOption: "INSERT INTO products.options (optID, optName, optDesc, optType) VALUES ($1, $2, $3, $4, $5)",
         addItem: "INSERT INTO products.optItems (itemID, optID, itemName, itemValue, itemCost) VALUES ($1, $2, $3, $4, $5)"
     },
     update: {
@@ -82,18 +86,78 @@ const listStuff = async (arg) => {
         throw new Error("Internal server error");
     }
 };
+
+const getItem = async (arg, id) => {
+    try {
+        return await new Promise(function (resolve, reject) {
+            pool.query(arg, [id], (error, results) => {
+                if (error) {
+                    reject(error);
+                }
+                if (results && results.rows) {
+                    resolve(results.rows);
+                } else {
+                    reject(new Error("No results found"));
+                }
+            });
+        });
+    } catch (error_1) {
+        console.error(error_1);
+        throw new Error("Internal server error");
+    }
+}
+
+
 const listCategories = () => listStuff(querySelect.select.listCategories)
-const listProducts = () =>  listStuff(querySelect.select.listProducts)
+const listProducts = () => listStuff(querySelect.select.listProducts)
 const listSubcats = () => listStuff(querySelect.select.listSubcats)
 
+const getDetails = (id) => {
+    const prodDetails = getItem(querySelect.select.showProduct, id)
+    const prodOptions = getItem(querySelect.select.showProductOptions, id)
+    return Promise.all([prodDetails, prodOptions]).then(results => {
+        // @ts-ignore
+        return Promise.all(results[1].map(option =>
+            getItem(querySelect.select.showOptItems, option.optid).then(optItems => {
+                    return {
+                        "optid": option.optid,
+                        "optname": option.optname,
+                        "optdesc": option.optdesc,
+                        "opttype": option.opttype,
+                        "items": optItems
+                    }
+                }
+            )
+        )).then(options => {
+            console.log(results[0])
+            return {
+                ...results[0][0],
+                "options": options
+            }
+        })
+    })
+}
 
+/*Promise.all(results[1].map(option =>
+                        getItem(querySelect.select.showOptItems, option.optid)
+                    )).then((items) => {
+                        items.map((item) => {
+                            return {
+                                "optid": option.optid,
+                                "optname": option.optname,
+                                "optdesc": option.optdesc,
+                                "optType": option.opttype,
+                            }
+                        })
+                    }
 
-
+ */
 
 // #############################################################################################
 
 module.exports = {
     listProducts,
     listCategories,
-    listSubcats
+    listSubcats,
+    getDetails,
 };
