@@ -3,7 +3,7 @@
 -- (c) 2025 Lance Stubblefield
 
 
-INSERT INTO products.keywords(keyID, keyName, keyDesc, keyType)
+INSERT INTO products.keywords(keyid, keyname, keydesc, keytype)
 VALUES('6a503e0d-9206-4a52-bd85-eb2db1b65f3c','alcohol', 'Contains alcohol.', 'diet'),
       ('cf68c60a-4774-4690-88fa-6d24e53cdaa2','allergen','Contains commonly known allergens (ie. peanuts, shellfish).', 'diet'),
       ('ec097db1-b413-43e5-9495-945cb1ac83e0','meat','Contains animal proteins.', 'diet'),
@@ -30,14 +30,14 @@ VALUES('6a503e0d-9206-4a52-bd85-eb2db1b65f3c','alcohol', 'Contains alcohol.', 'd
       ('2885fd4d-82e4-4fe3-9cf0-a1c4bb91c58f','Fusion','A mix of cultures.)', 'ethnicity'),
       ('14ab6cfe-78c0-4e25-ba4a-bd312dc21eee','Middle Eastern','Middle Eastern origin or style.)', 'ethnicity');
 
-INSERT INTO products.categories(catID, catName, catDesc, catAvail, catRank)
+INSERT INTO products.categories(catid, catname, catdesc, catavail, catrank)
 VALUES('b6a666ce-4bad-4ba3-bea6-21b252090533', 'Breakfast', 'Traditional morning delights.', 'Opening until noon.', 1),
      ('83b38dd7-18cd-4b06-9c8f-8923b5432bda', 'Lunch', 'Middle of the day nutrition to keep you going!', '10am until 5pm, daily.', 2),
      ('ebe993da-245a-4b6b-9853-227e9610d8f9', 'Dinner', 'Early evening meal to round out your day.', '4pm until close.',3),
      ('6e008a71-3375-4839-aacf-f27a8e3c1521', 'Dessert', 'Want a sweet treat to finish off your meal?', 'Any time of day!',4),
      ('71dd97ef-de40-4e85-a5c0-1bdddb24704e', 'Beverages', 'Quench your thirst and satisfy your cravings!', 'All day long.',5);
 
-INSERT INTO products.subcats(subcatID,subcatName)
+INSERT INTO products.subcats(subcatid,subcatname)
     VALUES ('fde3bd12-b5a3-4466-8667-edf0c5f08f44','Meals'),
             ('140a814f-9fe5-47af-987c-fcf924704a4f','Omelets'),
             ('4f97743e-87e0-45d5-bb4c-c7200a187466','Sandwiches'),

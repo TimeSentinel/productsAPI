@@ -2,7 +2,7 @@
 -- Load initial testing data
 -- (c) 2025 Lance Stubblefield
 
-INSERT INTO products.options(optID, optName, optDesc, optType)
+INSERT INTO products.options(optid, optname, optdesc, opttype)
 VALUES ('f2817e78-96df-4166-ae8b-604229f94d89','Sandwich_Options', 'Select your sandwich options.','checkbox'),
        ('629f870a-169b-47ec-9455-dc74dd0f9448','Bread',  'What type of bread would you like?','radio'),
        ('d38a1042-faa0-4bda-b19c-85a94f129039','Burger_Meat', 'How well would you like your protein cooked?','radio'),
@@ -23,7 +23,7 @@ VALUES ('f2817e78-96df-4166-ae8b-604229f94d89','Sandwich_Options', 'Select your 
        ('e3d2b7ac-688a-4cb1-abe6-0e9258c69b9b','Drink_Size', 'Choose drink size','radio'),
        ('d4116639-c277-47ce-8573-5dd81c955186','Notes_Requests',  'Enter custom request here.','text');
 
-INSERT INTO products.optItems(itemID, optID, itemName, itemValue, itemCost)
+INSERT INTO products.optItems(itemid, optidD, itemname, itemvalue, itemcost)
 VALUES ('aa556c3c-8677-4f11-b693-6650f0450122', 'f2817e78-96df-4166-ae8b-604229f94d89','Lettuce', 'selected', 0),
        ('35105b5b-478b-4701-9995-2981d5327316', 'f2817e78-96df-4166-ae8b-604229f94d89', 'Tomato', 'selected',  0),
        ('e0909861-9247-4a02-a977-3c344480ba29', 'f2817e78-96df-4166-ae8b-604229f94d89', 'Onion', '', 0),
@@ -93,8 +93,8 @@ VALUES ('aa556c3c-8677-4f11-b693-6650f0450122', 'f2817e78-96df-4166-ae8b-604229f
        ('6515161e-9c00-40db-8880-0aead6d367df', 'e3d2b7ac-688a-4cb1-abe6-0e9258c69b9b','Large', '', 2),
        ('1fa8071a-264a-4a05-b79f-d1e9d33c38ca', 'd4116639-c277-47ce-8573-5dd81c955186','Custom Request', '', 0);
 
-INSERT INTO products.list(productID, productName, productShort, productDesc,
-                          productPrice, productImage, productCategory, productSubCategory, productTags, productDeleted, productDateAdded)
+INSERT INTO products.list(productid, productname, productshort, productdesc,
+                          productprice, productimage, productcategory, productsubcategory, producttags, productdeleted, productdateadded)
 VALUES ('d867ac1f-4a62-4759-94d7-245ab65b059b', 'Barbecue Beef Over Rice', '',
         'Spicy beef tips in a smoky sauce with vegetables. Served over rice.', 9.95, '/products/images/barbecuebeef.webp',
         'ebe993da-245a-4b6b-9853-227e9610d8f9', '8c02b7e0-8fd3-4dc8-9019-e6b916349516', 'meat, gluten-free, savory, American', 'n',now()),
@@ -170,7 +170,7 @@ VALUES ('d867ac1f-4a62-4759-94d7-245ab65b059b', 'Barbecue Beef Over Rice', '',
        ('448fd97c-076f-4e32-a42a-e90dd74eb730', 'Cinnamon Brownie', '', 'Yum. Absolutely yum.', 8.45,
         '/products/images/tacosalad.webp', '6e008a71-3375-4839-aacf-f27a8e3c1521', 'b8704f24-5852-42af-91e4-13c944f8acbd', 'vegetarian, vegan, sweet, American', 'n',now());
 
-INSERT INTO products.prodOpts (optID, prodID)
+INSERT INTO products.prodOpts (optid, prodid)
 VALUES ('22ffbc41-ae1d-486d-9c49-de91aa53f3ad','d867ac1f-4a62-4759-94d7-245ab65b059b'),
        ('89a69add-33e3-46e8-8a89-e326dec01d24','d867ac1f-4a62-4759-94d7-245ab65b059b'),
        ('fbc29267-3f62-4b4d-a2d6-cd60564d340f','d867ac1f-4a62-4759-94d7-245ab65b059b'),
