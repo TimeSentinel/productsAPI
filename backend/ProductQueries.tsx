@@ -6,13 +6,15 @@ PROJECT: productsAPI;
 --------------------------------------- */
 
 const Pool = require("pg").Pool;
+require("dotenv").config();
 
+console.log(process.env.DB_NAME)
 const pool = new Pool({
-    user: "admin",
-    host: "192.168.1.100",
-    database: "test",
-    password: "password123",
-    port: 5432,
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
 });
 
 function generateUUID() {
