@@ -63,6 +63,24 @@ app.get('/', (req, res) => {
                     res.status(500).send(error);
                 })
             break;
+        case 'productcost':
+            productQueries.getProductCost(req.query.id)
+                .then(response => {
+                    res.status(200).send(response);
+                })
+                .catch(error => {
+                    res.status(500).send(error);
+                })
+            break;
+        case 'itemcost':
+            productQueries.getItemCost(req.query.id)
+                .then(response => {
+                    res.status(200).send(response);
+                })
+                .catch(error => {
+                    res.status(500).send(error);
+                })
+            break;
         default:
             res.sendStatus(404);
             break;

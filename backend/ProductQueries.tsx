@@ -17,56 +17,59 @@ const pool = new Pool({
     port: process.env.DB_PORT,
 });
 
-function generateUUID() {
-    const crypto = require("crypto");
-    return crypto.randomUUID();
-}
+// function generateUUID() {
+//     const crypto = require("crypto");
+//     return crypto.randomUUID();
+// }
 
 const querySelect = {
     select: {
-        listProducts: "SELECT list.productID, list.productName, list.productShort, list.productDesc, list.productPrice," +
-            " list.productImage, list.productTags, categories.catName, subcats.subcatName FROM products.list " +
-            "LEFT JOIN products.categories ON list.productCategory = categories.catID " +
-            "LEFT JOIN products.subcats ON list.productSubCategory = subcats.subcatID WHERE productDeleted = 'n'",
-        showProduct: "SELECT list.productName, list.productShort, list.productDesc, list.productPrice," +
-            " list.productImage, list.productTags, categories.catName, subcats.subcatName FROM products.list " +
-            "LEFT JOIN products.categories ON list.productCategory = categories.catID " +
-            "LEFT JOIN products.subcats ON list.productSubCategory = subcats.subcatID WHERE productID  = $1",
+        listProducts: "SELECT list.productid, list.productname, list.productshort, list.productdesc, list.productprice," +
+            " list.productimage, list.producttags, categories.catname, subcats.subcatname FROM products.list " +
+            "LEFT JOIN products.categories ON list.productcategory = categories.catid " +
+            "LEFT JOIN products.subcats ON list.productsubcategory = subcats.subcatid WHERE productdeleted = 'n'",
+        showProduct: "SELECT list.productname, list.productshort, list.productdesc, list.productprice," +
+            " list.productimage, list.producttags, categories.catname, subcats.subcatname FROM products.list " +
+            "LEFT JOIN products.categories ON list.productcategory = categories.catid " +
+            "LEFT JOIN products.subcats ON list.productsubcategory = subcats.subcatid WHERE productid  = $1",
         showProductOptions: "SELECT * FROM products.options " +
             "LEFT JOIN products.prodopts ON prodopts.optid = options.optid" +
-            " WHERE prodopts.prodID = $1",
-
-
-        showOptItems: "SELECT * FROM products.optItems WHERE optId = $1",
+            " WHERE prodopts.prodid = $1",
+        showOptItems: "SELECT * FROM products.optitems WHERE optid = $1",
+        getProductPrice: "SELECT list.productprice FROM products.list WHERE productid = $1",
+        getItemPrice: "SELECT optitems.itemcost FROM products.optitems WHERE itemid = $1",
         listCategories: "SELECT * FROM products.categories ORDER BY catrank",
         listSubcats: "SELECT * FROM products.subcats",
         listKeywords: "SELECT * FROM products.keywords",
     },
     insert: {
-        addProduct: "INSERT INTO products.list (productID, productName, productShort, productDesc, productPrice, productImage, " +
-            "productCategory, productSubcategory, productTags, productDeleted, productDateAdded) " +
-            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'n', now())",
-        addKeyword: "INSERT INTO products.keywords (keyID, keyName, keyDesc, keyTypeID) VALUES ($1, $2, $3, $4)",
-        addProdOpt: "INSERT INTO products.prodOpts (optID, prodID) VALUES ($1, $2)",
-        addCategory: "INSERT INTO products.categories (catID, catName, catDesc, catAvail, catRank) VALUES ($1, $2, $3, $4, $5)",
-        addSubcat: "INSERT INTO products.subcats (subCatID, subCatName) VALUES ($1, $2)",
-        addOption: "INSERT INTO products.options (optID, optName, optDesc, optType) VALUES ($1, $2, $3, $4, $5)",
-        addItem: "INSERT INTO products.optItems (itemID, optID, itemName, itemValue, itemCost) VALUES ($1, $2, $3, $4, $5)"
+        addProduct: "INSERT INTO products.list (productid, productname, productshort, productdesc, productprice, productimage, " +
+            "productcategory, productSubcategory, producttags, productdeleted, productdateadded) " +
+            "VaLUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'n', now())",
+        addKeyword: "INSERT INTO products.keywords (keyid, keyname, keydesc, keytype) VaLUES ($1, $2, $3, $4)",
+        addProdopt: "INSERT INTO products.prodopts (optid, prodid) VaLUES ($1, $2)",
+        addCategory: "INSERT INTO products.categories (catid, catname, catdesc, catavail, catrank) VaLUES ($1, $2, $3, $4, $5)",
+        addSubcat: "INSERT INTO products.subcats (subcatid, subcatname) VaLUES ($1, $2)",
+        addOption: "INSERT INTO products.options (optid, optname, optdesc, optType) VaLUES ($1, $2, $3, $4)",
+        addItem: "INSERT INTO products.optitems (itemid, optid, itemname, itemValue, itemCost) VaLUES ($1, $2, $3, $4, $5)"
     },
     update: {
-        editProduct: "UPDATE products.list SET productName = $2, productShort = $3, productDesc = $4, productPrice = $5, productImage = $6, productCategory = $7, productSubcat = $8, productTags = $8 WHERE UUID = $1",
-        editSubcategory: "UPDATE products.subcats SET subCatName = $2 WHERE subCatID = $1",
-        editCategory: "UPDATE products.categories SET catName = $2, catDesc = $3, catAvail = $4 WHERE UUID = $1"
+        editProduct: "UPDATE products.list SET productname = $2, productshort = $3, productdesc = $4, " +
+            " productprice = $5, productimage = $6, productcategory = $7, productSubcat = $8, producttags = $8 " +
+            " WHERE productid = $1",
+        editSubcategory: "UPDATE products.subcats SET subcatname = $2 WHERE subcatid = $1",
+        editCategory: "UPDATE products.categories SET catname = $2, catdesc = $3, catavail = $4 WHERE catid = $1"
     },
     delete: {
-        removeProduct: "UPDATE products.list SET productDeleted='y' WHERE UUID = $1",
-        removeCategory: "DELETE FROM products.categories WHERE catID = $1",
-        removeSubCategory: "DELETE FROM products.subcats WHERE subcatID = $1",
-        deleteKeyword: "DELETE FROM products.keywords WHERE keyID = $1",
-        deleteOption: "DELETE FROM products.options WHERE optID = $1",
-        deleteOptItem: "DELETE FROM products.optItems WHERE itemID = $1"
+        removeProduct: "UPDATE products.list SET productdeleted='y' WHERE productid = $1",
+        removeCategory: "DELETE FROM products.categories WHERE catid = $1",
+        removeSubcategory: "DELETE FROM products.subcats WHERE subcatid = $1",
+        deleteKeyword: "DELETE FROM products.keywords WHERE keyid = $1",
+        deleteOption: "DELETE FROM products.options WHERE optid = $1",
+        deleteOptItem: "DELETE FROM products.optitems WHERE itemid = $1"
     }
 }
+
 
 // ---------------------------------------------------- LISTS ----------------------------------------------------
 const listStuff = async (arg) => {
@@ -140,20 +143,17 @@ const getDetails = (id) => {
     })
 }
 
-/*Promise.all(results[1].map(option =>
-                        getItem(querySelect.select.showOptItems, option.optid)
-                    )).then((items) => {
-                        items.map((item) => {
-                            return {
-                                "optid": option.optid,
-                                "optname": option.optname,
-                                "optdesc": option.optdesc,
-                                "optType": option.opttype,
-                            }
-                        })
-                    }
+const getProdPrice = (id) => {
+    const prodPrice = getItem(querySelect.select.getProductPrice, id)
+    return Promise.all([prodPrice])
+}
 
- */
+const getItemPrice = (id) => {
+    const itemPrice = getItem(querySelect.select.getItemPrice, id)
+    return Promise.all([itemPrice])
+}
+
+
 
 // #############################################################################################
 
@@ -162,4 +162,6 @@ module.exports = {
     listCategories,
     listSubcats,
     getDetails,
+    getProdPrice,
+    getItemPrice,
 };

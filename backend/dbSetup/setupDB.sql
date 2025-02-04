@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS products.options (
     opttype varchar(16)
 );
 
-CREATE TABLE IF NOT EXISTS products.optItems (
+CREATE TABLE IF NOT EXISTS products.optitems (
     itemid UUID NOT NULL unique primary key ,
     optid UUID,
     itemname varchar(255) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS products.optItems (
     itemcost numeric(5, 2)
 );
 
-CREATE TABLE IF NOT EXISTS products.prodOpts (
+CREATE TABLE IF NOT EXISTS products.prodopts (
     optid UUID NOT NULL,
     prodid UUID NOT NULL
 );
@@ -55,8 +55,8 @@ CREATE TABLE IF NOT EXISTS products.list (
     productdesc varchar,
     productprice numeric(5,2),
     productimage varchar(255),
-    productcategory UUID references products.categories(catID),
-    productsubcategory UUID references products.subcats(subcatID),
+    productcategory UUID references products.categories(catid),
+    productsubcategory UUID references products.subcats(subcatid),
     producttags varchar,
     productdeleted char(1),
     productdateadded date,
