@@ -64,7 +64,7 @@ app.get('/', (req, res) => {
                 })
             break;
         case 'productcost':
-            productQueries.getProductCost(req.query.id)
+            productQueries.getProdPrice(req.query.id)
                 .then(response => {
                     res.status(200).send(response);
                 })
@@ -73,7 +73,7 @@ app.get('/', (req, res) => {
                 })
             break;
         case 'itemcost':
-            productQueries.getItemCost(req.query.id)
+            productQueries.getItemPrice(req.query.id)
                 .then(response => {
                     res.status(200).send(response);
                 })
