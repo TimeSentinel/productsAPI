@@ -59,8 +59,7 @@ CREATE TABLE IF NOT EXISTS products.list (
     productsubcategory UUID references products.subcats(subcatid),
     producttags varchar,
     productdeleted char(1),
-    productdateadded date,
-
+    productdateadded date
 );
 
 
