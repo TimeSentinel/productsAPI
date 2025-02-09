@@ -37,7 +37,7 @@ const querySelect = {
             " WHERE prodopts.prodid = $1",
         showOptItems: "SELECT * FROM products.optitems WHERE optid = $1",
         getProductPrice: "SELECT list.productprice FROM products.list WHERE productid = $1",
-        getItemPrice: "SELECT optitems.itemcost FROM products.optitems WHERE itemid = $1",
+        getItemPrice: "SELECT optitems.itemprice FROM products.optitems WHERE itemid = $1",
         listCategories: "SELECT * FROM products.categories ORDER BY catrank",
         listSubcats: "SELECT * FROM products.subcats",
         listKeywords: "SELECT * FROM products.keywords",
@@ -51,7 +51,7 @@ const querySelect = {
         addCategory: "INSERT INTO products.categories (catid, catname, catdesc, catavail, catrank) VaLUES ($1, $2, $3, $4, $5)",
         addSubcat: "INSERT INTO products.subcats (subcatid, subcatname) VaLUES ($1, $2)",
         addOption: "INSERT INTO products.options (optid, optname, optdesc, optType) VaLUES ($1, $2, $3, $4)",
-        addItem: "INSERT INTO products.optitems (itemid, optid, itemname, itemValue, itemCost) VaLUES ($1, $2, $3, $4, $5)"
+        addItem: "INSERT INTO products.optitems (itemid, optid, itemname, itemValue, itemprice) VaLUES ($1, $2, $3, $4, $5)"
     },
     update: {
         editProduct: "UPDATE products.list SET productname = $2, productshort = $3, productdesc = $4, " +
@@ -144,16 +144,12 @@ const getDetails = (id) => {
 }
 
 const getProdPrice = (id) => {
-    const prodPrice = getItem(querySelect.select.getProductPrice, id)
-    return Promise.all([prodPrice])
+    return getItem(querySelect.select.getProductPrice, id)
 }
 
 const getItemPrice = (id) => {
-    const itemPrice = getItem(querySelect.select.getItemPrice, id)
-    return Promise.all([itemPrice])
+    return getItem(querySelect.select.getItemPrice, id)
 }
-
-
 
 // #############################################################################################
 

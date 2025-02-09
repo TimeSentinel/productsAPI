@@ -23,7 +23,7 @@ VALUES ('f2817e78-96df-4166-ae8b-604229f94d89','Sandwich_Options', 'Select your 
        ('e3d2b7ac-688a-4cb1-abe6-0e9258c69b9b','Drink_Size', 'Choose drink size','radio'),
        ('d4116639-c277-47ce-8573-5dd81c955186','Notes_Requests',  'Enter custom request here.','text');
 
-INSERT INTO products.optItems(itemid, optid, itemname, itemvalue, itemcost)
+INSERT INTO products.optItems(itemid, optid, itemname, itemvalue, itemprice)
 VALUES ('aa556c3c-8677-4f11-b693-6650f0450122', 'f2817e78-96df-4166-ae8b-604229f94d89','Lettuce', 'selected', 0),
        ('35105b5b-478b-4701-9995-2981d5327316', 'f2817e78-96df-4166-ae8b-604229f94d89', 'Tomato', 'selected',  0),
        ('e0909861-9247-4a02-a977-3c344480ba29', 'f2817e78-96df-4166-ae8b-604229f94d89', 'Onion', '', 0),

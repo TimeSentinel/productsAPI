@@ -63,16 +63,17 @@ app.get('/', (req, res) => {
                     res.status(500).send(error);
                 })
             break;
-        case 'productcost':
+        case 'productprice':
             productQueries.getProdPrice(req.query.id)
                 .then(response => {
                     res.status(200).send(response);
+                    console.log(response)
                 })
                 .catch(error => {
                     res.status(500).send(error);
                 })
             break;
-        case 'itemcost':
+        case 'itemprice':
             productQueries.getItemPrice(req.query.id)
                 .then(response => {
                     res.status(200).send(response);

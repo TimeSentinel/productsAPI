@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS products.optitems (
     optid UUID,
     itemname varchar(255) NOT NULL,
     itemvalue varchar(255),
-    itemcost numeric(5, 2)
+    itemprice numeric(5, 2)
 );
 
 CREATE TABLE IF NOT EXISTS products.prodopts (
