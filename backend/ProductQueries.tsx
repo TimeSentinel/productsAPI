@@ -143,13 +143,8 @@ const getDetails = (id) => {
     })
 }
 
-const getProdPrice = (id) => {
-    return getItem(querySelect.select.getProductPrice, id)
-}
-
-const getItemPrice = (id) => {
-    return getItem(querySelect.select.getItemPrice, id)
-}
+const getProdPrice = (id) => getItem(querySelect.select.getProductPrice, id)
+const getItemPrice = (id) => getItem(querySelect.select.getItemPrice, id)
 
 // #############################################################################################
 

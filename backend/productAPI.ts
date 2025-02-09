@@ -31,6 +31,7 @@ app.get('/', (req, res) => {
             productQueries.listProducts()
                 .then(response => {
                     res.status(200).send(response);
+                    console.log(response)
                 })
                 .catch(error => {
                     res.status(500).send(error);
@@ -40,6 +41,7 @@ app.get('/', (req, res) => {
             productQueries.listCategories()
                 .then(response => {
                     res.status(200).send(response);
+                    console.log(response)
                 })
                 .catch(error => {
                     res.status(500).send(error);
@@ -49,6 +51,7 @@ app.get('/', (req, res) => {
             productQueries.listSubcats()
                 .then(response => {
                     res.status(200).send(response);
+                    console.log(response)
                 })
                 .catch(error => {
                     res.status(500).send(error);
@@ -58,6 +61,7 @@ app.get('/', (req, res) => {
             productQueries.getDetails(req.query.id)
                 .then(response => {
                     res.status(200).send(response);
+                    console.log(response)
                 })
                 .catch(error => {
                     res.status(500).send(error);
@@ -77,6 +81,7 @@ app.get('/', (req, res) => {
             productQueries.getItemPrice(req.query.id)
                 .then(response => {
                     res.status(200).send(response);
+                    console.log(response)
                 })
                 .catch(error => {
                     res.status(500).send(error);
