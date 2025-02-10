@@ -38,6 +38,8 @@ const querySelect = {
         showOptItems: "SELECT * FROM products.optitems WHERE optid = $1",
         getProductPrice: "SELECT list.productprice FROM products.list WHERE productid = $1",
         getItemPrice: "SELECT optitems.itemprice FROM products.optitems WHERE itemid = $1",
+        getCartProduct: "SELECT productname, productprice FROM products.list WHERE productid = $1",
+        getCartItem: "SELECT itemname, itemprice FROM products.optitems WHERE itemid = $1",
         listCategories: "SELECT * FROM products.categories ORDER BY catrank",
         listSubcats: "SELECT * FROM products.subcats",
         listKeywords: "SELECT * FROM products.keywords",
@@ -145,6 +147,8 @@ const getDetails = (id) => {
 
 const getProdPrice = (id) => getItem(querySelect.select.getProductPrice, id)
 const getItemPrice = (id) => getItem(querySelect.select.getItemPrice, id)
+const getCartProduct = (id) => getItem(querySelect.select.getProductPrice, id)
+const getCartItem = (id) => getItem(querySelect.select.getItemPrice, id)
 
 // #############################################################################################
 
@@ -155,4 +159,6 @@ module.exports = {
     getDetails,
     getProdPrice,
     getItemPrice,
+    getCartProduct,
+    getCartItem,
 };

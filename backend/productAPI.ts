@@ -5,6 +5,9 @@ PROJECT: productsAPI;
 (c) 2025 Lance Stubblefield 
 --------------------------------------- */
 
+// ---------- DEBUG ----------
+const debug = false;
+
 const express = require("express");
 const app = express()
 const port = 3001
@@ -31,7 +34,7 @@ app.get('/', (req, res) => {
             productQueries.listProducts()
                 .then(response => {
                     res.status(200).send(response);
-                    console.log(response)
+                    if (debug) console.log(response)
                 })
                 .catch(error => {
                     res.status(500).send(error);
@@ -41,7 +44,7 @@ app.get('/', (req, res) => {
             productQueries.listCategories()
                 .then(response => {
                     res.status(200).send(response);
-                    console.log(response)
+                    if (debug) console.log(response)
                 })
                 .catch(error => {
                     res.status(500).send(error);
@@ -51,7 +54,7 @@ app.get('/', (req, res) => {
             productQueries.listSubcats()
                 .then(response => {
                     res.status(200).send(response);
-                    console.log(response)
+                    if (debug) console.log(response)
                 })
                 .catch(error => {
                     res.status(500).send(error);
@@ -61,7 +64,7 @@ app.get('/', (req, res) => {
             productQueries.getDetails(req.query.id)
                 .then(response => {
                     res.status(200).send(response);
-                    console.log(response)
+                    if (debug) console.log(response)
                 })
                 .catch(error => {
                     res.status(500).send(error);
@@ -71,7 +74,7 @@ app.get('/', (req, res) => {
             productQueries.getProdPrice(req.query.id)
                 .then(response => {
                     res.status(200).send(response);
-                    console.log(response)
+                    if (debug) console.log(response)
                 })
                 .catch(error => {
                     res.status(500).send(error);
@@ -81,12 +84,33 @@ app.get('/', (req, res) => {
             productQueries.getItemPrice(req.query.id)
                 .then(response => {
                     res.status(200).send(response);
-                    console.log(response)
+                    if (debug) console.log(response)
                 })
                 .catch(error => {
                     res.status(500).send(error);
                 })
             break;
+        case 'cartProduct':
+            productQueries.getCartProduct(req.query.id)
+                .then(response => {
+                    res.status(200).send(response);
+                    if (debug) console.log(response)
+                })
+                .catch(error => {
+                    res.status(500).send(error);
+                })
+            break;
+        case 'cartItem':
+            productQueries.getCartItem(req.query.id)
+                .then(response => {
+                    res.status(200).send(response);
+                    if (debug) console.log(response)
+                })
+                .catch(error => {
+                    res.status(500).send(error);
+                })
+            break;
+
         default:
             res.sendStatus(404);
             break;
