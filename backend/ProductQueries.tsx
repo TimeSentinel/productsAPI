@@ -147,8 +147,8 @@ const getDetails = (id) => {
 
 const getProdPrice = (id) => getItem(querySelect.select.getProductPrice, id)
 const getItemPrice = (id) => getItem(querySelect.select.getItemPrice, id)
-const getCartProduct = (id) => getItem(querySelect.select.getProductPrice, id)
-const getCartItem = (id) => getItem(querySelect.select.getItemPrice, id)
+const getCartProduct = (id) => getItem(querySelect.select.getCartProduct, id)
+const getCartItem = (id) => getItem(querySelect.select.getCartItem, id)
 
 // #############################################################################################
 

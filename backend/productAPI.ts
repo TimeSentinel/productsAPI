@@ -6,7 +6,7 @@ PROJECT: productsAPI;
 --------------------------------------- */
 
 // ---------- DEBUG ----------
-const debug = false;
+const debug = true;
 
 const express = require("express");
 const app = express()
