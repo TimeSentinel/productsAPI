@@ -39,7 +39,7 @@ const querySelect = {
         getProductPrice: "SELECT list.productprice FROM products.list WHERE productid = $1",
         getItemPrice: "SELECT optitems.itemprice FROM products.optitems WHERE itemid = $1",
         getCartProduct: "SELECT productname, productprice FROM products.list WHERE productid = $1",
-        getCartItem: "SELECT itemname, itemprice FROM products.optitems WHERE itemid = $1",
+        getCartItem: "SELECT itemid, itemname, itemprice FROM products.optitems WHERE itemid = $1",
         listCategories: "SELECT * FROM products.categories ORDER BY catrank",
         listSubcats: "SELECT * FROM products.subcats",
         listKeywords: "SELECT * FROM products.keywords",
