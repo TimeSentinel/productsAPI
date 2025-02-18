@@ -158,17 +158,17 @@ VALUES ('d867ac1f-4a62-4759-94d7-245ab65b059b', 'Barbecue Beef Over Rice', '',
        ('c9444e95-8aaa-4fee-8df6-89767f56fae0', 'Wet Pork Burrito', '',
         'Pork and cheese burrito baked in enchilada sauce. Served with corn on the cob and tater tots.', 17.95,
         '/products/images/wetburrito.webp', 'ebe993da-245a-4b6b-9853-227e9610d8f9', 'ad21bdba-5fce-412f-944d-3fd48447a71b', 'vegetarian, vegan, gluten-free, American', 'n',now()),
-       ('6ed24460-520e-4d85-8a00-a8f68eb969f4', 'Cheesy Pasta', '', 'Very cheesy pasta!', 20, '/products/images/tacosalad.webp',
+       ('6ed24460-520e-4d85-8a00-a8f68eb969f4', 'Cheesy Pasta', '', 'Very cheesy pasta!', 20, '/products/images/cheesypasta.webp',
         'ebe993da-245a-4b6b-9853-227e9610d8f9', '2aa8c54a-6d0c-4f17-bac8-bc7ce247b79a', 'vegetarian, dairy, savory, Italian', 'n',now()),
        ('9691b777-8c5a-4c97-932f-a6c85dfb9912', 'Sausage and Rice', '', 'Mexican favorite!', 15,
-        '/products/images/tacosalad.webp', 'b6a666ce-4bad-4ba3-bea6-21b252090533', 'fde3bd12-b5a3-4466-8667-edf0c5f08f44', 'meat, dairy, spicy, hot, gluten-free, Mexican', 'n',now()),
-       ('a8cf191a-65c9-4af1-b2fd-6c7e864f92b1', 'French Toast', '', 'Probably not actually from France.', 42.59,
-        '/products/images/tacosalad.webp', 'b6a666ce-4bad-4ba3-bea6-21b252090533', 'fde3bd12-b5a3-4466-8667-edf0c5f08f44', 'vegetarian, vegan, gluten-free, American, European', 'n',now()),
+        '/products/images/sausagerice.webp', 'b6a666ce-4bad-4ba3-bea6-21b252090533', 'fde3bd12-b5a3-4466-8667-edf0c5f08f44', 'meat, dairy, spicy, hot, gluten-free, Mexican', 'n',now()),
+       ('a8cf191a-65c9-4af1-b2fd-6c7e864f92b1', 'Country Breakfast', '', 'Eggs, hashbrowns, and country fried steak with gravy!', 42.59,
+        '/products/images/countrybreakfast.webp', 'b6a666ce-4bad-4ba3-bea6-21b252090533', 'fde3bd12-b5a3-4466-8667-edf0c5f08f44', 'vegetarian, vegan, gluten-free, American, European', 'n',now()),
        ('1a1401e1-dbc0-46db-af4c-8a50438d3c85', 'Loaded Hashbrowns', '',
-        'Julienned potatoes with all the toppings. I mean ALL THE TOPPINGS!', 19.99, '/products/images/tacosalad.webp',
+        'Julienned potatoes with all the toppings. I mean ALL THE TOPPINGS!', 19.99, '/products/images/loadedhashbrowns.webp',
         'b6a666ce-4bad-4ba3-bea6-21b252090533', '92fe5e22-d55d-486d-80b4-3559c04ad08e', 'vegetarian, vegan, gluten-free, American', 'n',now()),
        ('448fd97c-076f-4e32-a42a-e90dd74eb730', 'Cinnamon Brownie', '', 'Yum. Absolutely yum.', 8.45,
-        '/products/images/tacosalad.webp', '6e008a71-3375-4839-aacf-f27a8e3c1521', 'b8704f24-5852-42af-91e4-13c944f8acbd', 'vegetarian, vegan, sweet, American', 'n',now());
+        '/products/images/cinnamonbrownie.webp', '6e008a71-3375-4839-aacf-f27a8e3c1521', 'b8704f24-5852-42af-91e4-13c944f8acbd', 'vegetarian, vegan, sweet, American', 'n',now());
 
 INSERT INTO products.prodOpts (optid, prodid)
 VALUES ('22ffbc41-ae1d-486d-9c49-de91aa53f3ad','d867ac1f-4a62-4759-94d7-245ab65b059b'),
